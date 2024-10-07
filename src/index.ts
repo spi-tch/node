@@ -8,21 +8,6 @@ import * as API from './resources/index';
 
 export interface ClientOptions {
   /**
-   * The client ID used for OAuth2 authentication
-   */
-  clientId?: string | undefined;
-
-  /**
-   * The client secret used for OAuth2 authentication
-   */
-  clientSecret?: string | undefined;
-
-  /**
-   * The token URL for the OAuth2 authentication
-   */
-  tokenURL?: string | undefined;
-
-  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
    * Defaults to process.env['SPITCH_BASE_URL'].
@@ -83,18 +68,11 @@ export interface ClientOptions {
  * API Client for interfacing with the Spitch API.
  */
 export class Spitch extends Core.APIClient {
-  clientId: string;
-  clientSecret: string;
-  tokenURL: string;
-
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Spitch API.
    *
-   * @param {string | undefined} [opts.clientId=process.env['OAUTH2_CLIENT_ID'] ?? undefined]
-   * @param {string | undefined} [opts.clientSecret=process.env['OAUTH2_CLIENT_SECRET'] ?? undefined]
-   * @param {string | undefined} [opts.tokenURL=process.env['OAUTH2_TOKEN_URL'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['SPITCH_BASE_URL'] ?? https://api.spi-tch.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -103,33 +81,8 @@ export class Spitch extends Core.APIClient {
    * @param {Core.Headers} opts.defaultHeaders - Default headers to include with every request to the API.
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
-  constructor({
-    baseURL = Core.readEnv('SPITCH_BASE_URL'),
-    clientId = Core.readEnv('OAUTH2_CLIENT_ID'),
-    clientSecret = Core.readEnv('OAUTH2_CLIENT_SECRET'),
-    tokenURL = Core.readEnv('OAUTH2_TOKEN_URL'),
-    ...opts
-  }: ClientOptions = {}) {
-    if (clientId === undefined) {
-      throw new Errors.SpitchError(
-        "The OAUTH2_CLIENT_ID environment variable is missing or empty; either provide it, or instantiate the Spitch client with an clientId option, like new Spitch({ clientId: 'My Client ID' }).",
-      );
-    }
-    if (clientSecret === undefined) {
-      throw new Errors.SpitchError(
-        "The OAUTH2_CLIENT_SECRET environment variable is missing or empty; either provide it, or instantiate the Spitch client with an clientSecret option, like new Spitch({ clientSecret: 'My Client Secret' }).",
-      );
-    }
-    if (tokenURL === undefined) {
-      throw new Errors.SpitchError(
-        "The OAUTH2_TOKEN_URL environment variable is missing or empty; either provide it, or instantiate the Spitch client with an tokenURL option, like new Spitch({ tokenURL: 'My Token URL' }).",
-      );
-    }
-
+  constructor({ baseURL = Core.readEnv('SPITCH_BASE_URL'), ...opts }: ClientOptions = {}) {
     const options: ClientOptions = {
-      clientId,
-      clientSecret,
-      tokenURL,
       ...opts,
       baseURL: baseURL || `https://api.spi-tch.com`,
     };
@@ -143,10 +96,6 @@ export class Spitch extends Core.APIClient {
     });
 
     this._options = options;
-
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.tokenURL = tokenURL;
   }
 
   transcriptions: API.Transcriptions = new API.Transcriptions(this);
