@@ -3,15 +3,14 @@
 import { APIResource } from '../resource';
 import * as Core from '../core';
 import * as SpeechAPI from './speech';
-import { type Response } from '../_shims/index';
 
 export class Speech extends APIResource {
   /**
    * Synthesize
    */
-  generate(params: SpeechGenerateParams, options?: Core.RequestOptions): Core.APIPromise<Response> {
+  generate(params: SpeechGenerateParams, options?: Core.RequestOptions): Core.APIPromise<unknown> {
     const { stream, ...body } = params;
-    return this._client.post('/v1/speech', { query: { stream }, body, ...options, __binaryResponse: true });
+    return this._client.post('/v1/speech', { query: { stream }, body, ...options });
   }
 
   /**
@@ -21,6 +20,8 @@ export class Speech extends APIResource {
     return this._client.post('/v1/transcriptions', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
+
+export type SpeechGenerateResponse = unknown;
 
 export type SpeechTranscibeResponse = unknown;
 
@@ -55,6 +56,7 @@ export interface SpeechTranscibeParams {
 }
 
 export namespace Speech {
+  export import SpeechGenerateResponse = SpeechAPI.SpeechGenerateResponse;
   export import SpeechTranscibeResponse = SpeechAPI.SpeechTranscibeResponse;
   export import SpeechGenerateParams = SpeechAPI.SpeechGenerateParams;
   export import SpeechTranscibeParams = SpeechAPI.SpeechTranscibeParams;

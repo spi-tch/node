@@ -9,6 +9,17 @@ const client = new Spitch({
 });
 
 describe('resource speech', () => {
+  test('generate: only required params', async () => {
+    const responsePromise = client.speech.generate({ language: 'yo', text: 'text' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('generate: required and optional params', async () => {
     const response = await client.speech.generate({
       language: 'yo',
