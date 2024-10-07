@@ -181,7 +181,6 @@ export namespace Spitch {
   export import RequestOptions = Core.RequestOptions;
 
   export import Speech = API.Speech;
-  export import SpeechGenerateResponse = API.SpeechGenerateResponse;
   export import SpeechTranscibeResponse = API.SpeechTranscibeResponse;
   export import SpeechGenerateParams = API.SpeechGenerateParams;
   export import SpeechTranscibeParams = API.SpeechTranscibeParams;
