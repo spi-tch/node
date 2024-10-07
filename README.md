@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Spitch REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [docs.spitch.com](https://docs.spitch.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.spi-tch.com](https://docs.spi-tch.com). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
@@ -25,10 +25,12 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Spitch from 'spitch';
 
-const client = new Spitch();
+const client = new Spitch({
+  apiKey: process.env['SPITCH_API_KEY'], // This is the default and can be omitted
+});
 
 async function main() {
-  const transcription = await client.transcriptions.create({ language: 'yo' });
+  const response = await client.speech.transcibe({ language: 'yo' });
 }
 
 main();
@@ -42,11 +44,13 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Spitch from 'spitch';
 
-const client = new Spitch();
+const client = new Spitch({
+  apiKey: process.env['SPITCH_API_KEY'], // This is the default and can be omitted
+});
 
 async function main() {
-  const params: Spitch.TranscriptionCreateParams = { language: 'yo' };
-  const transcription: unknown = await client.transcriptions.create(params);
+  const params: Spitch.SpeechTranscibeParams = { language: 'yo' };
+  const response: unknown = await client.speech.transcibe(params);
 }
 
 main();
@@ -63,7 +67,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const transcription = await client.transcriptions.create({ language: 'yo' }).catch(async (err) => {
+  const response = await client.speech.transcibe({ language: 'yo' }).catch(async (err) => {
     if (err instanceof Spitch.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -106,7 +110,7 @@ const client = new Spitch({
 });
 
 // Or, configure per-request:
-await client.transcriptions.create({ language: 'yo' }, {
+await client.speech.transcibe({ language: 'yo' }, {
   maxRetries: 5,
 });
 ```
@@ -123,7 +127,7 @@ const client = new Spitch({
 });
 
 // Override per-request:
-await client.transcriptions.create({ language: 'yo' }, {
+await client.speech.transcibe({ language: 'yo' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -144,15 +148,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Spitch();
 
-const response = await client.transcriptions.create({ language: 'yo' }).asResponse();
+const response = await client.speech.transcibe({ language: 'yo' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: transcription, response: raw } = await client.transcriptions
-  .create({ language: 'yo' })
-  .withResponse();
+const { data: response, response: raw } = await client.speech.transcibe({ language: 'yo' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(transcription);
+console.log(response);
 ```
 
 ### Making custom/undocumented requests
@@ -256,7 +258,7 @@ const client = new Spitch({
 });
 
 // Override per-request:
-await client.transcriptions.create(
+await client.speech.transcibe(
   { language: 'yo' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),

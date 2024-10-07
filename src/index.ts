@@ -8,6 +8,11 @@ import * as API from './resources/index';
 
 export interface ClientOptions {
   /**
+   * Defaults to process.env['SPITCH_API_KEY'].
+   */
+  apiKey?: string | undefined;
+
+  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
    * Defaults to process.env['SPITCH_BASE_URL'].
@@ -68,11 +73,14 @@ export interface ClientOptions {
  * API Client for interfacing with the Spitch API.
  */
 export class Spitch extends Core.APIClient {
+  apiKey: string;
+
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Spitch API.
    *
+   * @param {string | undefined} [opts.apiKey=process.env['SPITCH_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['SPITCH_BASE_URL'] ?? https://api.spi-tch.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -81,8 +89,19 @@ export class Spitch extends Core.APIClient {
    * @param {Core.Headers} opts.defaultHeaders - Default headers to include with every request to the API.
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
-  constructor({ baseURL = Core.readEnv('SPITCH_BASE_URL'), ...opts }: ClientOptions = {}) {
+  constructor({
+    baseURL = Core.readEnv('SPITCH_BASE_URL'),
+    apiKey = Core.readEnv('SPITCH_API_KEY'),
+    ...opts
+  }: ClientOptions = {}) {
+    if (apiKey === undefined) {
+      throw new Errors.SpitchError(
+        "The SPITCH_API_KEY environment variable is missing or empty; either provide it, or instantiate the Spitch client with an apiKey option, like new Spitch({ apiKey: 'My API Key' }).",
+      );
+    }
+
     const options: ClientOptions = {
+      apiKey,
       ...opts,
       baseURL: baseURL || `https://api.spi-tch.com`,
     };
@@ -96,9 +115,12 @@ export class Spitch extends Core.APIClient {
     });
 
     this._options = options;
+
+    this.apiKey = apiKey;
   }
 
-  transcriptions: API.Transcriptions = new API.Transcriptions(this);
+  speech: API.Speech = new API.Speech(this);
+  text: API.Text = new API.Text(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -109,6 +131,10 @@ export class Spitch extends Core.APIClient {
       ...super.defaultHeaders(opts),
       ...this._options.defaultHeaders,
     };
+  }
+
+  protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
+    return { Authorization: `Bearer ${this.apiKey}` };
   }
 
   static Spitch = this;
@@ -154,9 +180,14 @@ export import fileFromPath = Uploads.fileFromPath;
 export namespace Spitch {
   export import RequestOptions = Core.RequestOptions;
 
-  export import Transcriptions = API.Transcriptions;
-  export import TranscriptionCreateResponse = API.TranscriptionCreateResponse;
-  export import TranscriptionCreateParams = API.TranscriptionCreateParams;
+  export import Speech = API.Speech;
+  export import SpeechTranscibeResponse = API.SpeechTranscibeResponse;
+  export import SpeechGenerateParams = API.SpeechGenerateParams;
+  export import SpeechTranscibeParams = API.SpeechTranscibeParams;
+
+  export import Text = API.Text;
+  export import TextToneMarkResponse = API.TextToneMarkResponse;
+  export import TextToneMarkParams = API.TextToneMarkParams;
 }
 
 export default Spitch;
