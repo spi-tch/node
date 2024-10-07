@@ -3,11 +3,23 @@
 import Spitch, { toFile } from 'spitch';
 import { Response } from 'node-fetch';
 
-const client = new Spitch({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const client = new Spitch({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
-describe('resource transcriptions', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.transcriptions.create({ language: 'yo' });
+describe('resource speech', () => {
+  test('generate: required and optional params', async () => {
+    const response = await client.speech.generate({
+      language: 'yo',
+      text: 'text',
+      stream: true,
+      voice: 'sade',
+    });
+  });
+
+  test('transcibe: only required params', async () => {
+    const responsePromise = client.speech.transcibe({ language: 'yo' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -17,8 +29,8 @@ describe('resource transcriptions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
-    const response = await client.transcriptions.create({
+  test('transcibe: required and optional params', async () => {
+    const response = await client.speech.transcibe({
       language: 'yo',
       content: await toFile(Buffer.from('# my file contents'), 'README.md'),
       url: 'url',
