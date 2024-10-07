@@ -3,12 +3,7 @@
 import Spitch, { toFile } from 'spitch';
 import { Response } from 'node-fetch';
 
-const client = new Spitch({
-  clientId: 'My Client ID',
-  clientSecret: 'My Client Secret',
-  tokenURL: 'My Token URL',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Spitch({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource transcriptions', () => {
   test('create: only required params', async () => {

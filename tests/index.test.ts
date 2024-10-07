@@ -23,9 +23,6 @@ describe('instantiate client', () => {
     const client = new Spitch({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
     });
 
     test('they are used in the request', () => {
@@ -54,13 +51,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new Spitch({
-        baseURL: 'http://localhost:5000/',
-        defaultQuery: { apiVersion: 'foo' },
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({ baseURL: 'http://localhost:5000/', defaultQuery: { apiVersion: 'foo' } });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
 
@@ -68,21 +59,12 @@ describe('instantiate client', () => {
       const client = new Spitch({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
 
     test('overriding with `undefined`', () => {
-      const client = new Spitch({
-        baseURL: 'http://localhost:5000/',
-        defaultQuery: { hello: 'world' },
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({ baseURL: 'http://localhost:5000/', defaultQuery: { hello: 'world' } });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
   });
@@ -90,9 +72,6 @@ describe('instantiate client', () => {
   test('custom fetch', async () => {
     const client = new Spitch({
       baseURL: 'http://localhost:5000/',
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
       fetch: (url) => {
         return Promise.resolve(
           new Response(JSON.stringify({ url, custom: true }), {
@@ -109,9 +88,6 @@ describe('instantiate client', () => {
   test('custom signal', async () => {
     const client = new Spitch({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
           setTimeout(
@@ -136,22 +112,12 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new Spitch({
-        baseURL: 'http://localhost:5000/custom/path/',
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({ baseURL: 'http://localhost:5000/custom/path/' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new Spitch({
-        baseURL: 'http://localhost:5000/custom/path',
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({ baseURL: 'http://localhost:5000/custom/path' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
@@ -160,97 +126,41 @@ describe('instantiate client', () => {
     });
 
     test('explicit option', () => {
-      const client = new Spitch({
-        baseURL: 'https://example.com',
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({ baseURL: 'https://example.com' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
       process.env['SPITCH_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Spitch({
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({});
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
       process.env['SPITCH_BASE_URL'] = ''; // empty
-      const client = new Spitch({
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({});
       expect(client.baseURL).toEqual('https://api.spi-tch.com');
     });
 
     test('blank env variable', () => {
       process.env['SPITCH_BASE_URL'] = '  '; // blank
-      const client = new Spitch({
-        clientId: 'My Client ID',
-        clientSecret: 'My Client Secret',
-        tokenURL: 'My Token URL',
-      });
+      const client = new Spitch({});
       expect(client.baseURL).toEqual('https://api.spi-tch.com');
     });
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Spitch({
-      maxRetries: 4,
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-    });
+    const client = new Spitch({ maxRetries: 4 });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-    });
+    const client2 = new Spitch({});
     expect(client2.maxRetries).toEqual(2);
-  });
-
-  test('with environment variable arguments', () => {
-    // set options via env var
-    process.env['OAUTH2_CLIENT_ID'] = 'My Client ID';
-    process.env['OAUTH2_CLIENT_SECRET'] = 'My Client Secret';
-    process.env['OAUTH2_TOKEN_URL'] = 'My Token URL';
-    const client = new Spitch();
-    expect(client.clientId).toBe('My Client ID');
-    expect(client.clientSecret).toBe('My Client Secret');
-    expect(client.tokenURL).toBe('My Token URL');
-  });
-
-  test('with overriden environment variable arguments', () => {
-    // set options via env var
-    process.env['OAUTH2_CLIENT_ID'] = 'another My Client ID';
-    process.env['OAUTH2_CLIENT_SECRET'] = 'another My Client Secret';
-    process.env['OAUTH2_TOKEN_URL'] = 'another My Token URL';
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-    });
-    expect(client.clientId).toBe('My Client ID');
-    expect(client.clientSecret).toBe('My Client Secret');
-    expect(client.tokenURL).toBe('My Token URL');
   });
 });
 
 describe('request building', () => {
-  const client = new Spitch({
-    clientId: 'My Client ID',
-    clientSecret: 'My Client Secret',
-    tokenURL: 'My Token URL',
-  });
+  const client = new Spitch({});
 
   describe('Content-Length', () => {
     test('handles multi-byte characters', () => {
@@ -292,13 +202,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-      timeout: 10,
-      fetch: testFetch,
-    });
+    const client = new Spitch({ timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -328,13 +232,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-      fetch: testFetch,
-      maxRetries: 4,
-    });
+    const client = new Spitch({ fetch: testFetch, maxRetries: 4 });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
 
@@ -358,13 +256,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-      fetch: testFetch,
-      maxRetries: 4,
-    });
+    const client = new Spitch({ fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -393,13 +285,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-      fetch: testFetch,
-      maxRetries: 4,
-    });
+    const client = new Spitch({ fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -426,12 +312,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-      fetch: testFetch,
-    });
+    const client = new Spitch({ fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -458,12 +339,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Spitch({
-      clientId: 'My Client ID',
-      clientSecret: 'My Client Secret',
-      tokenURL: 'My Token URL',
-      fetch: testFetch,
-    });
+    const client = new Spitch({ fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
