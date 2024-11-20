@@ -1,12 +1,12 @@
 {
   "name": "spitch",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "The official TypeScript library for the Spitch API",
   "author": "Spitch <admin@spi-tch.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:stainless-sdks/spitch-node",
+  "repository": "github:spi-tch/spitch-node",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [
