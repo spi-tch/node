@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.14.1 (2024-11-20)
+
+Full Changelog: [v1.14.0...v1.14.1](https://github.com/spi-tch/spitch-node/compare/v1.14.0...v1.14.1)
+
+### Chores
+
+* **internal:** version bump ([#13](https://github.com/spi-tch/spitch-node/issues/13)) ([73ed354](https://github.com/spi-tch/spitch-node/commit/73ed3549dc7023caf74244d83e560f504462e328))
+
 ## 1.14.0 (2024-11-20)
 
 Full Changelog: [v0.1.0-alpha.2...v1.14.0](https://github.com/spi-tch/spitch-node/compare/v0.1.0-alpha.2...v1.14.0)

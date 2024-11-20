@@ -1,10 +1,23 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Errors from './error';
-import * as Uploads from './uploads';
 import { type Agent } from './_shims/index';
 import * as Core from './core';
+import * as Errors from './error';
+import * as Uploads from './uploads';
 import * as API from './resources/index';
+import {
+  Speech,
+  SpeechGenerateParams,
+  SpeechTranscribeParams,
+  SpeechTranscribeResponse,
+} from './resources/speech';
+import {
+  Text,
+  TextToneMarkParams,
+  TextToneMarkResponse,
+  TextTranslateParams,
+  TextTranslateResponse,
+} from './resources/text';
 
 export interface ClientOptions {
   /**
@@ -158,7 +171,29 @@ export class Spitch extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export const {
+Spitch.Speech = Speech;
+Spitch.Text = Text;
+export declare namespace Spitch {
+  export type RequestOptions = Core.RequestOptions;
+
+  export {
+    Speech as Speech,
+    type SpeechTranscribeResponse as SpeechTranscribeResponse,
+    type SpeechGenerateParams as SpeechGenerateParams,
+    type SpeechTranscribeParams as SpeechTranscribeParams,
+  };
+
+  export {
+    Text as Text,
+    type TextToneMarkResponse as TextToneMarkResponse,
+    type TextTranslateResponse as TextTranslateResponse,
+    type TextToneMarkParams as TextToneMarkParams,
+    type TextTranslateParams as TextTranslateParams,
+  };
+}
+
+export { toFile, fileFromPath } from './uploads';
+export {
   SpitchError,
   APIError,
   APIConnectionError,
