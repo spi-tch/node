@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as TextAPI from './text';
 
 export class Text extends APIResource {
   /**
@@ -49,9 +48,11 @@ export interface TextTranslateParams {
   text: string;
 }
 
-export namespace Text {
-  export import TextToneMarkResponse = TextAPI.TextToneMarkResponse;
-  export import TextTranslateResponse = TextAPI.TextTranslateResponse;
-  export import TextToneMarkParams = TextAPI.TextToneMarkParams;
-  export import TextTranslateParams = TextAPI.TextTranslateParams;
+export declare namespace Text {
+  export {
+    type TextToneMarkResponse as TextToneMarkResponse,
+    type TextTranslateResponse as TextTranslateResponse,
+    type TextToneMarkParams as TextToneMarkParams,
+    type TextTranslateParams as TextTranslateParams,
+  };
 }

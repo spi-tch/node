@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as SpeechAPI from './speech';
 import { type Response } from '../_shims/index';
 
 export class Speech extends APIResource {
@@ -95,8 +94,10 @@ export interface SpeechTranscribeParams {
   url?: string | null;
 }
 
-export namespace Speech {
-  export import SpeechTranscribeResponse = SpeechAPI.SpeechTranscribeResponse;
-  export import SpeechGenerateParams = SpeechAPI.SpeechGenerateParams;
-  export import SpeechTranscribeParams = SpeechAPI.SpeechTranscribeParams;
+export declare namespace Speech {
+  export {
+    type SpeechTranscribeResponse as SpeechTranscribeResponse,
+    type SpeechGenerateParams as SpeechGenerateParams,
+    type SpeechTranscribeParams as SpeechTranscribeParams,
+  };
 }
