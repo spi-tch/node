@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2024-10-07)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/spi-tch/spitch-node/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([#7](https://github.com/spi-tch/spitch-node/issues/7)) ([3bc4e5a](https://github.com/spi-tch/spitch-node/commit/3bc4e5ab31b59fdde8d1b44d417cc51ef31e999c))
+* **api:** update via SDK Studio ([#9](https://github.com/spi-tch/spitch-node/issues/9)) ([540ea2c](https://github.com/spi-tch/spitch-node/commit/540ea2cd1cd8053b6c3441943c601d00325aca25))
+
 ## 0.1.0-alpha.1 (2024-10-07)
 
 Full Changelog: [v0.0.1-alpha.1...v0.1.0-alpha.1](https://github.com/spi-tch/spitch-node/compare/v0.0.1-alpha.1...v0.1.0-alpha.1)

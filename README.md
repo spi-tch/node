@@ -27,7 +27,10 @@ const client = new Spitch({
 });
 
 async function main() {
-  const response = await client.speech.transcibe({ language: 'yo' });
+  const response = await client.speech.generate({ language: 'yo', text: 'text' });
+
+  const content = await response.blob();
+  console.log(content);
 }
 
 main();
@@ -46,8 +49,8 @@ const client = new Spitch({
 });
 
 async function main() {
-  const params: Spitch.SpeechTranscibeParams = { language: 'yo' };
-  const response: unknown = await client.speech.transcibe(params);
+  const params: Spitch.SpeechGenerateParams = { language: 'yo', text: 'text' };
+  const response: Response = await client.speech.generate(params);
 }
 
 main();
@@ -64,7 +67,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.speech.transcibe({ language: 'yo' }).catch(async (err) => {
+  const response = await client.speech.generate({ language: 'yo', text: 'text' }).catch(async (err) => {
     if (err instanceof Spitch.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -107,7 +110,7 @@ const client = new Spitch({
 });
 
 // Or, configure per-request:
-await client.speech.transcibe({ language: 'yo' }, {
+await client.speech.generate({ language: 'yo', text: 'text' }, {
   maxRetries: 5,
 });
 ```
@@ -124,7 +127,7 @@ const client = new Spitch({
 });
 
 // Override per-request:
-await client.speech.transcibe({ language: 'yo' }, {
+await client.speech.generate({ language: 'yo', text: 'text' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -145,11 +148,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Spitch();
 
-const response = await client.speech.transcibe({ language: 'yo' }).asResponse();
+const response = await client.speech.generate({ language: 'yo', text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.speech.transcibe({ language: 'yo' }).withResponse();
+const { data: response, response: raw } = await client.speech
+  .generate({ language: 'yo', text: 'text' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(response);
 ```
@@ -255,8 +260,8 @@ const client = new Spitch({
 });
 
 // Override per-request:
-await client.speech.transcibe(
-  { language: 'yo' },
+await client.speech.generate(
+  { language: 'yo', text: 'text' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
