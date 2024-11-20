@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as TextAPI from './text';
 
 export class Text extends APIResource {
   /**

@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as SpeechAPI from './speech';
 import { type Response } from '../_shims/index';
 
 export class Speech extends APIResource {
