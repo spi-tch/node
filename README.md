@@ -11,8 +11,11 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 ## Installation
 
 ```sh
-npm install spitch
+npm install git+ssh://git@github.com:stainless-sdks/spitch-node.git
 ```
+
+> [!NOTE]
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install spitch`
 
 ## Usage
 
@@ -27,7 +30,7 @@ const client = new Spitch({
 });
 
 async function main() {
-  const response = await client.speech.generate({ language: 'yo', text: 'text' });
+  const response = await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' });
 
   const content = await response.blob();
   console.log(content);
@@ -49,7 +52,7 @@ const client = new Spitch({
 });
 
 async function main() {
-  const params: Spitch.SpeechGenerateParams = { language: 'yo', text: 'text' };
+  const params: Spitch.SpeechGenerateParams = { language: 'yo', text: 'text', voice: 'sade' };
   const response: Response = await client.speech.generate(params);
 }
 
@@ -67,15 +70,17 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.speech.generate({ language: 'yo', text: 'text' }).catch(async (err) => {
-    if (err instanceof Spitch.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+  const response = await client.speech
+    .generate({ language: 'yo', text: 'text', voice: 'sade' })
+    .catch(async (err) => {
+      if (err instanceof Spitch.APIError) {
+        console.log(err.status); // 400
+        console.log(err.name); // BadRequestError
+        console.log(err.headers); // {server: 'nginx', ...}
+      } else {
+        throw err;
+      }
+    });
 }
 
 main();
@@ -110,7 +115,7 @@ const client = new Spitch({
 });
 
 // Or, configure per-request:
-await client.speech.generate({ language: 'yo', text: 'text' }, {
+await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' }, {
   maxRetries: 5,
 });
 ```
@@ -127,7 +132,7 @@ const client = new Spitch({
 });
 
 // Override per-request:
-await client.speech.generate({ language: 'yo', text: 'text' }, {
+await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -148,12 +153,12 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Spitch();
 
-const response = await client.speech.generate({ language: 'yo', text: 'text' }).asResponse();
+const response = await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: response, response: raw } = await client.speech
-  .generate({ language: 'yo', text: 'text' })
+  .generate({ language: 'yo', text: 'text', voice: 'sade' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(response);
@@ -219,7 +224,7 @@ import Spitch from 'spitch';
 ```
 
 To do the inverse, add `import "spitch/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/spi-tch/spitch-node/tree/main/src/_shims#readme)).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/spitch-node/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
 
@@ -261,7 +266,7 @@ const client = new Spitch({
 
 // Override per-request:
 await client.speech.generate(
-  { language: 'yo', text: 'text' },
+  { language: 'yo', text: 'text', voice: 'sade' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
@@ -278,7 +283,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/spi-tch/spitch-node/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/spitch-node/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

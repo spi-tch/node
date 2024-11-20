@@ -9,38 +9,94 @@ export class Speech extends APIResource {
   /**
    * Synthesize
    */
-  generate(body: SpeechGenerateParams, options?: Core.RequestOptions): Core.APIPromise<Response> {
-    return this._client.post('/v1/speech', { body, ...options, __binaryResponse: true });
+  generate(params: SpeechGenerateParams, options?: Core.RequestOptions): Core.APIPromise<Response> {
+    const { stream, ...body } = params;
+    return this._client.post('/v1/speech', { query: { stream }, body, ...options, __binaryResponse: true });
   }
 
   /**
    * Transcribe
    */
-  transcibe(body: SpeechTranscibeParams, options?: Core.RequestOptions): Core.APIPromise<unknown> {
+  transcribe(
+    body: SpeechTranscribeParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<SpeechTranscribeResponse> {
     return this._client.post('/v1/transcriptions', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
 
-export type SpeechTranscibeResponse = unknown;
+export interface SpeechTranscribeResponse {
+  request_id: string;
 
-export interface SpeechGenerateParams {
-  language: 'yo' | 'en' | 'ha' | 'ig';
+  segments?: Array<SpeechTranscribeResponse.Segment | null>;
 
-  text: string;
-
-  voice?: 'sade' | 'segun' | 'femi' | 'funmi';
+  text?: string | null;
 }
 
-export interface SpeechTranscibeParams {
+export namespace SpeechTranscribeResponse {
+  export interface Segment {
+    end?: number;
+
+    speaker?: number | null;
+
+    start?: number;
+
+    text?: number;
+  }
+}
+
+export interface SpeechGenerateParams {
+  /**
+   * Body param:
+   */
+  language: 'yo' | 'en' | 'ha' | 'ig';
+
+  /**
+   * Body param:
+   */
+  text: string;
+
+  /**
+   * Body param:
+   */
+  voice:
+    | 'sade'
+    | 'segun'
+    | 'femi'
+    | 'funmi'
+    | 'amina'
+    | 'aliyu'
+    | 'hasan'
+    | 'zainab'
+    | 'ngozi'
+    | 'amara'
+    | 'ebuka'
+    | 'obinna'
+    | 'lucy'
+    | 'lina'
+    | 'john'
+    | 'jude';
+
+  /**
+   * Query param:
+   */
+  stream?: boolean;
+}
+
+export interface SpeechTranscribeParams {
   language: 'yo' | 'en' | 'ha' | 'ig';
 
   content?: Core.Uploadable | null;
+
+  multispeaker?: boolean | null;
+
+  timestamp?: boolean | null;
 
   url?: string | null;
 }
 
 export namespace Speech {
-  export import SpeechTranscibeResponse = SpeechAPI.SpeechTranscibeResponse;
+  export import SpeechTranscribeResponse = SpeechAPI.SpeechTranscribeResponse;
   export import SpeechGenerateParams = SpeechAPI.SpeechGenerateParams;
-  export import SpeechTranscibeParams = SpeechAPI.SpeechTranscibeParams;
+  export import SpeechTranscribeParams = SpeechAPI.SpeechTranscribeParams;
 }
