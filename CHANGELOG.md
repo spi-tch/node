@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.16.0 (2024-11-28)
+
+Full Changelog: [v1.15.0...v1.16.0](https://github.com/spi-tch/node/compare/v1.15.0...v1.16.0)
+
+### Features
+
+* **api:** update via SDK Studio ([1a1dd7c](https://github.com/spi-tch/node/commit/1a1dd7cc3e93aae1f8d3af1a4952957b6523b026))
+* **api:** update via SDK Studio ([6a8924f](https://github.com/spi-tch/node/commit/6a8924f6882538e46dad532bfaae6a9b7bc3a953))
+* **api:** update via SDK Studio ([c7e1346](https://github.com/spi-tch/node/commit/c7e1346f6ca232028e332acead6770e2cfc82a92))
+* **api:** update via SDK Studio ([c95297e](https://github.com/spi-tch/node/commit/c95297ebe5e42eb019052ab4bbcea7fd3427cf7c))
+* **api:** update via SDK Studio ([6ff301e](https://github.com/spi-tch/node/commit/6ff301efa438a1dc6955cd93e181e95c9ad37498))
+* **api:** update via SDK Studio ([ac895ca](https://github.com/spi-tch/node/commit/ac895ca1b8ee94bb9d45e86ff0923bb1f3b95d05))
+* **api:** update via SDK Studio ([#2](https://github.com/spi-tch/node/issues/2)) ([37908ef](https://github.com/spi-tch/node/commit/37908ef6c253b77648f4ccad80be8060d6fa69e5))
+* **internal:** make git install file structure match npm ([#3](https://github.com/spi-tch/node/issues/3)) ([155a6d6](https://github.com/spi-tch/node/commit/155a6d6abe5382cd0ba62254bbb99a38f2f87e98))
+
+
+### Chores
+
+* configure new SDK language ([c7e1574](https://github.com/spi-tch/node/commit/c7e1574c29274c31c3ede3ca92cdd7a35f7bb65b))
+
 ## 1.15.0 (2024-11-21)
 
 Full Changelog: [v1.14.1...v1.15.0](https://github.com/spi-tch/spitch-node/compare/v1.14.1...v1.15.0)
