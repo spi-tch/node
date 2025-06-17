@@ -1,6 +1,6 @@
 {
   "include": ["src", "tests", "examples"],
-  "exclude": [],
+  "exclude": ["src/_shims/**/*-deno.ts"],
   "compilerOptions": {
     "target": "es2020",
     "lib": ["es2020"],
@@ -9,8 +9,9 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "spitch-sdk/*": ["src/*"],
-      "spitch-sdk": ["src/index.ts"]
+      "spitch/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "spitch/*": ["src/*"],
+      "spitch": ["src/index.ts"]
     },
     "noEmit": true,
 
@@ -31,7 +32,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "isolatedModules": false,
+		"isolatedModules": false,
 
     "skipLibCheck": true
   }

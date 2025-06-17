@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { SpitchSDK } from 'spitch-sdk';
+import { Spitch } from 'spitch';
 
-const { stringifyQuery } = SpitchSDK.prototype as any;
+const { stringifyQuery } = Spitch.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [

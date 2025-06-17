@@ -2,38 +2,21 @@
 
 Types:
 
-- <code><a href="./src/resources/speech.ts">Language</a></code>
+- <code><a href="./src/resources/speech.ts">SpeechTranscribeResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/speech">client.speech.<a href="./src/resources/speech.ts">synthesize</a>({ ...params }) -> Response</code>
+- <code title="post /v1/speech">client.speech.<a href="./src/resources/speech.ts">generate</a>({ ...params }) -> Response</code>
+- <code title="post /v1/transcriptions">client.speech.<a href="./src/resources/speech.ts">transcribe</a>({ ...params }) -> SpeechTranscribeResponse</code>
 
-# Transcriptions
+# Text
 
 Types:
 
-- <code><a href="./src/resources/transcriptions.ts">TranscriptionCreateResponse</a></code>
+- <code><a href="./src/resources/text.ts">TextToneMarkResponse</a></code>
+- <code><a href="./src/resources/text.ts">TextTranslateResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/transcriptions">client.transcriptions.<a href="./src/resources/transcriptions.ts">create</a>({ ...params }) -> TranscriptionCreateResponse</code>
-
-# Diacritics
-
-Types:
-
-- <code><a href="./src/resources/diacritics.ts">DiacriticCreateResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/diacritics">client.diacritics.<a href="./src/resources/diacritics.ts">create</a>({ ...params }) -> DiacriticCreateResponse</code>
-
-# Translate
-
-Types:
-
-- <code><a href="./src/resources/translate.ts">TranslateCreateResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/translate">client.translate.<a href="./src/resources/translate.ts">create</a>({ ...params }) -> TranslateCreateResponse</code>
+- <code title="post /v1/diacritics">client.text.<a href="./src/resources/text.ts">toneMark</a>({ ...params }) -> TextToneMarkResponse</code>
+- <code title="post /v1/translate">client.text.<a href="./src/resources/text.ts">translate</a>({ ...params }) -> TextTranslateResponse</code>

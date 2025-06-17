@@ -1,12 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "include": ["dist/src"],
-  "exclude": [],
+  "exclude": ["dist/src/_shims/*-deno.ts"],
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "spitch-sdk/*": ["dist/src/*"],
-      "spitch-sdk": ["dist/src/index.ts"]
+      "spitch/*": ["dist/src/*"],
+      "spitch": ["dist/src/index.ts"],
     },
     "noEmit": false,
     "declaration": true,

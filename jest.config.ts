@@ -7,15 +7,15 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^spitch-sdk$': '<rootDir>/src/index.ts',
-    '^spitch-sdk/(.*)$': '<rootDir>/src/$1',
+    '^spitch$': '<rootDir>/src/index.ts',
+    '^spitch/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
+    '^spitch/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',
     '<rootDir>/dist/',
     '<rootDir>/deno/',
     '<rootDir>/deno_tests/',
-    '<rootDir>/packages/',
   ],
   testPathIgnorePatterns: ['scripts'],
 };

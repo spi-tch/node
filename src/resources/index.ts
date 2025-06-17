@@ -1,10 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Diacritics, type DiacriticCreateResponse, type DiacriticCreateParams } from './diacritics';
-export { Speech, type Language, type SpeechSynthesizeParams } from './speech';
 export {
-  Transcriptions,
-  type TranscriptionCreateResponse,
-  type TranscriptionCreateParams,
-} from './transcriptions';
-export { Translate, type TranslateCreateResponse, type TranslateCreateParams } from './translate';
+  Speech,
+  type SpeechTranscribeResponse,
+  type SpeechGenerateParams,
+  type SpeechTranscribeParams,
+} from './speech';
+export {
+  Text,
+  type TextToneMarkResponse,
+  type TextTranslateResponse,
+  type TextToneMarkParams,
+  type TextTranslateParams,
+} from './text';
