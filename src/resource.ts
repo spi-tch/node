@@ -2,7 +2,7 @@
 
 import type { Spitch } from './index';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: Spitch;
 
   constructor(client: Spitch) {

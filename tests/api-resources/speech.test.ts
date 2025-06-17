@@ -10,11 +10,16 @@ const client = new Spitch({
 
 describe('resource speech', () => {
   test('generate: required and optional params', async () => {
-    const response = await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' });
+    const response = await client.speech.generate({
+      language: 'yo',
+      text: 'text',
+      voice: 'sade',
+      stream: true,
+    });
   });
 
-  test('transcibe: only required params', async () => {
-    const responsePromise = client.speech.transcibe({ language: 'yo' });
+  test('transcribe: only required params', async () => {
+    const responsePromise = client.speech.transcribe({ language: 'yo' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -24,10 +29,12 @@ describe('resource speech', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('transcibe: required and optional params', async () => {
-    const response = await client.speech.transcibe({
+  test('transcribe: required and optional params', async () => {
+    const response = await client.speech.transcribe({
       language: 'yo',
       content: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      multispeaker: true,
+      timestamp: true,
       url: 'url',
     });
   });
