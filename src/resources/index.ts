@@ -1,4 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { SpeechTranscibeResponse, SpeechGenerateParams, SpeechTranscibeParams, Speech } from './speech';
-export { TextToneMarkResponse, TextToneMarkParams, Text } from './text';
+export {
+  Speech,
+  type SpeechTranscribeResponse,
+  type SpeechGenerateParams,
+  type SpeechTranscribeParams,
+} from './speech';
+export {
+  Text,
+  type TextToneMarkResponse,
+  type TextTranslateResponse,
+  type TextToneMarkParams,
+  type TextTranslateParams,
+} from './text';

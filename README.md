@@ -4,9 +4,9 @@
 
 This library provides convenient access to the Spitch REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [docs.spi-tch.com](https://docs.spi-tch.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.spitch.app](https://docs.spitch.app). The full API of this library can be found in [api.md](api.md).
 
-It is generated with [Stainless](https://www.stainlessapi.com/).
+It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
@@ -26,14 +26,10 @@ const client = new Spitch({
   apiKey: process.env['SPITCH_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const response = await client.speech.generate({ language: 'yo', text: 'text' });
+const response = await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' });
 
-  const content = await response.blob();
-  console.log(content);
-}
-
-main();
+const content = await response.blob();
+console.log(content);
 ```
 
 ### Request & Response types
@@ -48,15 +44,41 @@ const client = new Spitch({
   apiKey: process.env['SPITCH_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: Spitch.SpeechGenerateParams = { language: 'yo', text: 'text' };
-  const response: Response = await client.speech.generate(params);
-}
-
-main();
+const params: Spitch.SpeechGenerateParams = { language: 'yo', text: 'text', voice: 'sade' };
+const response: Response = await client.speech.generate(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed in many different forms:
+
+- `File` (or an object with the same structure)
+- a `fetch` `Response` (or an object with the same structure)
+- an `fs.ReadStream`
+- the return value of our `toFile` helper
+
+```ts
+import fs from 'fs';
+import fetch from 'node-fetch';
+import Spitch, { toFile } from 'spitch';
+
+const client = new Spitch();
+
+// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
+await client.speech.transcribe({ language: 'yo', content: fs.createReadStream('/path/to/file') });
+
+// Or if you have the web `File` API you can pass a `File` instance:
+await client.speech.transcribe({ language: 'yo', content: new File(['my bytes'], 'file') });
+
+// You can also pass a `fetch` `Response`:
+await client.speech.transcribe({ language: 'yo', content: await fetch('https://somesite/file') });
+
+// Finally, if none of the above are convenient, you can use our `toFile` helper:
+await client.speech.transcribe({ language: 'yo', content: await toFile(Buffer.from('my bytes'), 'file') });
+await client.speech.transcribe({ language: 'yo', content: await toFile(new Uint8Array([0, 1, 2]), 'file') });
+```
 
 ## Handling errors
 
@@ -66,8 +88,9 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const response = await client.speech.generate({ language: 'yo', text: 'text' }).catch(async (err) => {
+const response = await client.speech
+  .generate({ language: 'yo', text: 'text', voice: 'sade' })
+  .catch(async (err) => {
     if (err instanceof Spitch.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -76,12 +99,9 @@ async function main() {
       throw err;
     }
   });
-}
-
-main();
 ```
 
-Error codes are as followed:
+Error codes are as follows:
 
 | Status Code | Error Type                 |
 | ----------- | -------------------------- |
@@ -110,7 +130,7 @@ const client = new Spitch({
 });
 
 // Or, configure per-request:
-await client.speech.generate({ language: 'yo', text: 'text' }, {
+await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' }, {
   maxRetries: 5,
 });
 ```
@@ -127,7 +147,7 @@ const client = new Spitch({
 });
 
 // Override per-request:
-await client.speech.generate({ language: 'yo', text: 'text' }, {
+await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -148,12 +168,12 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Spitch();
 
-const response = await client.speech.generate({ language: 'yo', text: 'text' }).asResponse();
+const response = await client.speech.generate({ language: 'yo', text: 'text', voice: 'sade' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: response, response: raw } = await client.speech
-  .generate({ language: 'yo', text: 'text' })
+  .generate({ language: 'yo', text: 'text', voice: 'sade' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(response);
@@ -261,7 +281,7 @@ const client = new Spitch({
 
 // Override per-request:
 await client.speech.generate(
-  { language: 'yo', text: 'text' },
+  { language: 'yo', text: 'text', voice: 'sade' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
@@ -273,7 +293,7 @@ await client.speech.generate(
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
 1. Changes that only affect static types, without breaking runtime behavior.
-2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals)_.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
 3. Changes that we do not expect to impact the vast majority of users in practice.
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
