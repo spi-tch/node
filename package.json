@@ -1,6 +1,6 @@
 {
   "name": "spitch",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "The official TypeScript library for the Spitch API",
   "author": "Spitch <dev@spitch.app>",
   "types": "dist/index.d.ts",
